@@ -56,9 +56,13 @@
 
 輸入"?"作為單個萬用字元，支援查找二至四碼字。
 
-### 從其他輸入法反查行列30
+※欲啟用此功能，需要編譯出`array30_query`的字典文件。`array30_query`輸入方案已附在本代碼庫中。
+
+### 從朙月拼音反查行列30
 
 以`` ` ``鍵開始輸入[拼音](https://github.com/rime/rime-luna-pinyin)以反查行列碼。
+
+※欲啟用朙月拼音反查行列碼的功能，需要編譯出`luna_quanpin`的字典文件。`luna_quanpin`輸入方案來自<https://github.com/rime/rime-luna-pinyin>。
 
 ### 簡碼及特別碼選字處理
 
