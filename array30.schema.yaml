@@ -115,7 +115,6 @@ speller:
     - xform/^(.*)!$/$1/                 # 簡碼
     - xform/^(.*)@$/$1/                 # 特別碼（須置於簡碼之後）
 
-#主translator
 translator:
   dictionary: array30
   enable_charset_filter: true
@@ -128,7 +127,6 @@ translator:
   comment_format:
     __include: array30_format
 
-#w+數字鍵translator
 wsymbols:
   tag: wsymbols
   dictionary: array30_wsymbols
@@ -147,8 +145,6 @@ wsymbols:
     - 'xform|^w9$|希臘符號|'
     - 'xform|^w0$|注音符號|'
 
-
-#萬用字元用translator
 array30_query:
   tag: array30_query
   dictionary: array30_query
@@ -159,13 +155,12 @@ array30_query:
   comment_format:
     __include: array30_format
 
-#
 emoji_suggestion:
   opencc_config: emoji.json
   option_name: emoji_suggestion
   tips: all
 
-# 拼音反查行列用translator
+# 反查拼音用translator
 luna_pinyin:
   tag: luna_pinyin
   dictionary: luna_pinyin
@@ -178,17 +173,13 @@ luna_pinyin:
     - xform/([nl])ue/$1üe/
     - xform/([jqxy])v/$1u/
 
-# 從其他輸入方案反查行列用filter
+# 從其他輸入方案反查行列
 reverse_lookup_array30:
-  tags: [ luna_pinyin, array30_query ]
+  tags: [ luna_pinyin ]
   overwrite_comment: true
   dictionary: array30
   comment_format:
     __include: array30_format
-    __append:
-      - 'xform| | ][ |'
-      - 'xform|^(.)|[ $1|'
-      - 'xform|(.)$|$1 ]|' #將每個字碼以[ ]包住
 
 punctuator:
   import_preset: default

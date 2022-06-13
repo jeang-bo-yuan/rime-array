@@ -1,4 +1,4 @@
-# array30.dict.yaml
+# array30_main.dict.yaml
 # vim: set tabstop=8 noet:
 # encoding: utf-8
 #
@@ -25,14 +25,14 @@
 # Terry Tsang <archerindigo@gmail.com>
 
 ---
-name: "array30"
+name: "array30_main"
 version: "2.0"
 sort: original
 use_preset_vocabulary: false
 ...
 
 # Begin of Array30 Special Code
-# Mark with '@' suffix
+# Mark with '!' suffix
 的	t!
 大	ak!
 不	ah!
