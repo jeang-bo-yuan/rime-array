@@ -2,3 +2,7 @@
 
 # 安裝說明
 將本資料內的所有檔案（除了本說明）複製到`<用戶資料夾>/build`內，接著重新部署Rime。
+
+# 版本
+array30_query.dict.yaml V2.0
+array30_query.schema.yaml V1.0
