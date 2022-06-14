@@ -1,14 +1,12 @@
 # 行列30
 
-配方： ℞ **array**
+基於`rime-array30`的修改版本。
 
-[Rime](https://rime.im) [行列30](http://www.array.com.tw/) 輸入方案
+## What's new
 
-## 安裝
-
-[東風破](https://github.com/rime/plum) 安裝口令： `bash rime-install array`
-
-各平台參考安裝步驟請[點此](https://github.com/archerindigo/rime-array/wiki/%E5%AE%89%E8%A3%9D%E6%95%99%E5%AD%B8)。
+1. 增加萬用字元反查行列碼
+2. 反查行列碼以方括弧框住
+3. 去除詞彙字典
 
 ## 功能說明
 
