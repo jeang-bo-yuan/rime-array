@@ -170,13 +170,17 @@ reverse_lookup_bopomofo:
   dictionary: terra_pinyin
   comment_format:
     - "xform/e?r5$/er5/"
+    - "xform/e?r5 /er5 /"
     - "xform/iu/iou/"
     - "xform/ui/uei/"
     - "xform/ong/ung/"
     - "xform/^yi?/i/"
+    - "xform/ yi?/ i/"
     - "xform/^wu?/u/"
+    - "xform/ wu?/ u/"
     - "xform/iu/v/"
     - "xform/^([jqx])u/$1v/"
+    - "xform/ ([jqx])u/ $1v/"
     - "xform/([iuv])n/$1en/"
     - "xform/zh/Z/"
     - "xform/ch/C/"
