@@ -26,6 +26,7 @@ switches:
   - name: simplification
     states: [ 漢字, 汉字 ]
   - name: extended_charset
+    reset: 1
     states: [ 常用, 增廣 ]
   - name: ascii_punct
     states: [ 。，, ．， ]
@@ -51,20 +52,175 @@ engine:
     - abc_segmentor
     - affix_segmentor@wsymbols
     - affix_segmentor@array30_query                 # "?"萬用字元用
-    - affix_segmentor@luna_pinyin                   # 反查拼音用
+    - affix_segmentor@luna_pinyin                   # 拼音反查行列用
+    - affix_segmentor@array30_to_bopomofo  #行列反查注音用
     - punct_segmentor
     - fallback_segmentor
   translators:
     - table_translator
     - table_translator@wsymbols
     - table_translator@array30_query                # "?"萬用字元用
+    - script_translator@luna_pinyin                 # 拼音反查行列用
+    - table_translator@array30_to_bopomofo  #行列反查注音用
     - punct_translator
-    - script_translator@luna_pinyin                 # 反查拼音用
   filters:
     - simplifier
     - simplifier@emoji_suggestion
     - uniquifier
-    - reverse_lookup_filter@reverse_lookup_array30      # 反查
+    - reverse_lookup_filter@reverse_lookup_array30      # 反查行列
+    - reverse_lookup_filter@reverse_lookup_bopomofo      # 反查注音
+
+speller:
+  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  delimiter: "\\"
+  algebra:
+    - xform/^(.*)!$/$1/                 # 簡碼
+    - xform/^(.*)@$/$1/                 # 特別碼（須置於簡碼之後）
+
+#主translator
+translator:
+  dictionary: array30
+  enable_charset_filter: true
+  enable_user_dict: false
+  enable_completion: true   # 預設啟動逐鍵提示，照顧emoji輸入
+  enable_sentence: false  #預設取消自動造句
+  preedit_format:
+    __include: array30_format
+  comment_format:
+    __include: array30_format
+
+#w+數字鍵segmentor加translator
+wsymbols:
+  tag: wsymbols
+  dictionary: array30_wsymbols
+  enable_completion: false
+  enable_sentence: false
+  enable_user_dict: false
+  preedit_format:
+    - 'xform|^w1$|標點符號|'
+    - 'xform|^w2$|括號符號|'
+    - 'xform|^w3$|一般符號|'
+    - 'xform|^w4$|數學符號|'
+    - 'xform|^w5$|方向符號|'
+    - 'xform|^w6$|單位符號|'
+    - 'xform|^w7$|圖表符號|'
+    - 'xform|^w8$|順序符號|'
+    - 'xform|^w9$|希臘符號|'
+    - 'xform|^w0$|注音符號|'
+
+
+#萬用字元用segmentor加translator
+array30_query:
+  tag: array30_query
+  dictionary: array30_query
+  enable_charset_filter: true
+  enable_completion: true
+  preedit_format:
+    __include: array30_format
+  comment_format:
+    __include: array30_format
+
+# 拼音反查行列用segmentor加translator
+luna_pinyin:
+  tag: luna_pinyin
+  dictionary: luna_pinyin
+  prism: luna_quanpin
+  prefix: "`"
+  suffix: "\\"
+  tips: 〔拼音→行列〕
+  preedit_format:
+    - xform/([nl])v/$1ü/
+    - xform/([nl])ue/$1üe/
+    - xform/([jqxy])v/$1u/
+    
+#行列反查注音用segmentor加translator
+array30_to_bopomofo:
+  tag: array30_to_bopomofo
+  dictionary: array30
+  prism: array30
+  enable_completion: true
+  prefix: "="
+  suffix: "\\"
+  tips: "〔行列→注音〕"
+  preedit_format:
+    __include: array30_format
+
+#filter
+emoji_suggestion:
+  opencc_config: emoji.json
+  option_name: emoji_suggestion
+  tips: all
+
+# 從其他輸入方案反查行列用filter
+reverse_lookup_array30:
+  tags: [ luna_pinyin, array30_query ]
+  overwrite_comment: true
+  dictionary: array30
+  comment_format:
+    __include: array30_format
+    __append:
+      - 'xform| | ][ |'
+      - 'xform|^(.)|[ $1|'
+      - 'xform|(.)$|$1 ]|' #將每個字碼以[ ]包住
+
+#從其他輸入方案反查注音用filter
+reverse_lookup_bopomofo:
+  tags: [array30_to_bopomofo]
+  overwrite_comment: true
+  dictionary: terra_pinyin
+  comment_format:
+    - "xform/e?r5$/er5/"
+    - "xform/e?r5 /er5 /"
+    - "xform/iu/iou/"
+    - "xform/ui/uei/"
+    - "xform/ong/ung/"
+    - "xform/^yi?/i/"
+    - "xform/ yi?/ i/"
+    - "xform/^wu?/u/"
+    - "xform/ wu?/ u/"
+    - "xform/iu/v/"
+    - "xform/^([jqx])u/$1v/"
+    - "xform/ ([jqx])u/ $1v/"
+    - "xform/([iuv])n/$1en/"
+    - "xform/zh/Z/"
+    - "xform/ch/C/"
+    - "xform/sh/S/"
+    - "xform/ai/A/"
+    - "xform/ei/I/"
+    - "xform/ao/O/"
+    - "xform/ou/U/"
+    - "xform/ang/K/"
+    - "xform/eng/G/"
+    - "xform/an/M/"
+    - "xform/en/N/"
+    - "xform/er/R/"
+    - "xform/eh/E/"
+    - "xform/([iv])e/$1E/"
+    - "xform/1//"
+    - "xlit|bpmfdtnlgkhjqxZCSrzcsiuvaoeEAIOUMNKGR2345|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦˊˇˋ˙|"
+    - 'xform| | ][ |'
+    - 'xform|^(.)|[ $1|'
+    - 'xform|(.)$|$1 ]|' #將每個字碼以[ ]包住
+
+punctuator:
+  import_preset: default
+
+key_binder:
+  import_preset: default
+  bindings:
+    - { when: paging, accept: comma, send: comma }
+    - { when: has_menu, accept: period, send: period }
+    - { when: has_menu, accept: space, send: space }
+    - { when: composing, accept: space, send: Escape }
+
+recognizer:
+  patterns:
+    wsymbols: "^[w][0-9]$"
+    array30_query: "^.*[?]+[a-z;,.\/]*\\\\?$"
+    luna_pinyin: "`[a-z]*\\\\?$"
+    array30_to_bopomofo: "=[a-z;\/.,]*\\\\?"
+
+###############雜項################
 
 array30_format:
     - 'xform|^A$|🙂|'   # Smileys & Emotion
@@ -107,100 +263,3 @@ array30_format:
     - 'xform|\.|9↓|'
     - 'xform|/|0↓|'
     - 'xform|~| |'      # 消除逐鍵提示前綴'~'
-
-speller:
-  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  delimiter: "\\"
-  algebra:
-    - xform/^(.*)!$/$1/                 # 簡碼
-    - xform/^(.*)@$/$1/                 # 特別碼（須置於簡碼之後）
-
-#主translator
-translator:
-  dictionary: array30
-  enable_charset_filter: true
-  enable_user_dict: false    # 用戶詞典。主要用於調頻
-  enable_completion: true   # 預設啟動逐鍵提示，照顧emoji輸入
-  preedit_format:
-    __include: array30_format
-  comment_format:
-    __include: array30_format
-
-#w+數字鍵translator
-wsymbols:
-  tag: wsymbols
-  dictionary: array30_wsymbols
-  enable_completion: false
-  enable_sentence: false
-  enable_user_dict: false
-  preedit_format:
-    - 'xform|^w1$|標點符號|'
-    - 'xform|^w2$|括號符號|'
-    - 'xform|^w3$|一般符號|'
-    - 'xform|^w4$|數學符號|'
-    - 'xform|^w5$|方向符號|'
-    - 'xform|^w6$|單位符號|'
-    - 'xform|^w7$|圖表符號|'
-    - 'xform|^w8$|順序符號|'
-    - 'xform|^w9$|希臘符號|'
-    - 'xform|^w0$|注音符號|'
-
-
-#萬用字元用translator
-array30_query:
-  tag: array30_query
-  dictionary: array30_query
-  enable_charset_filter: true
-  enable_completion: true
-  preedit_format:
-    __include: array30_format
-  comment_format:
-    __include: array30_format
-
-#
-emoji_suggestion:
-  opencc_config: emoji.json
-  option_name: emoji_suggestion
-  tips: all
-
-# 拼音反查行列用translator
-luna_pinyin:
-  tag: luna_pinyin
-  dictionary: luna_pinyin
-  prism: luna_quanpin
-  prefix: "`"
-  suffix: "\\"
-  tips: 〔拼音〕
-  preedit_format:
-    - xform/([nl])v/$1ü/
-    - xform/([nl])ue/$1üe/
-    - xform/([jqxy])v/$1u/
-
-# 從其他輸入方案反查行列用filter
-reverse_lookup_array30:
-  tags: [ luna_pinyin, array30_query ]
-  overwrite_comment: true
-  dictionary: array30
-  comment_format:
-    __include: array30_format
-    __append:
-      - 'xform| | ][ |'
-      - 'xform|^(.)|[ $1|'
-      - 'xform|(.)$|$1 ]|' #將每個字碼以[ ]包住
-
-punctuator:
-  import_preset: default
-
-key_binder:
-  import_preset: default
-  bindings:
-    - { when: paging, accept: comma, send: comma }
-    - { when: has_menu, accept: period, send: period }
-
-recognizer:
-  patterns:
-    wsymbols: "^[w][0-9]$"
-    array30_query: "^.*[?]+[a-z;,.\/]*\\\\?$"
-    luna_pinyin: "`[a-z]*\\\\?$"
-    email: "^[a-z][-_.0-9a-z]*@.*$"
-    url: "^(www[.]|https?:|ftp:|mailto:).*$"
