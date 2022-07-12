@@ -1,0 +1,10 @@
+
+NUL
+
+# ignore backup file produced by Emacs
+.*~
+*~
+#*
+#.*
+.#*
+.#.*
