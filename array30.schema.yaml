@@ -119,6 +119,8 @@ array30_query:
   dictionary: array30_query
   enable_charset_filter: true
   enable_completion: true
+  enable_sentence: false
+  enable_user_dict: true
   preedit_format:
     __include: array30_format
   comment_format:

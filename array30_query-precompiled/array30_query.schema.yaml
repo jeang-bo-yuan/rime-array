@@ -2,11 +2,15 @@ __build_info:
   rime_version: 1.5.3
   timestamps:
     array30.custom: 0
-    array30.schema: 1654703428
+    array30.schema: 1657639222
     array30_query.custom: 0
-    array30_query.schema: 1654703428
-    default: 1576692787
-    default.custom: 1655090354
+    array30_query.schema: 1657639222
+    default: 1561218646
+    default.custom: 1656061088
+    key_bindings: 1561218646
+    key_bindings.custom: 0
+    punctuation: 1561218646
+    punctuation.custom: 0
 engine:
   processors:
     - ascii_composer
@@ -28,18 +32,12 @@ engine:
     - table_translator
 key_binder:
   bindings:
-    - {accept: "Control+Shift+1", select: .next, when: always}
-    - {accept: "Control+Shift+2", toggle: ascii_mode, when: always}
-    - {accept: "Control+Shift+3", toggle: full_shape, when: always}
-    - {accept: "Control+Shift+4", toggle: simplification, when: always}
-    - {accept: "Control+Shift+5", toggle: extended_charset, when: always}
-    - {accept: "Control+Shift+exclam", select: .next, when: always}
-    - {accept: "Control+Shift+at", toggle: ascii_mode, when: always}
-    - {accept: "Control+Shift+numbersign", toggle: full_shape, when: always}
-    - {accept: "Control+Shift+dollar", toggle: simplification, when: always}
-    - {accept: "Control+Shift+percent", toggle: extended_charset, when: always}
     - {accept: "Shift+space", toggle: full_shape, when: always}
-    - {accept: "Control+period", toggle: ascii_punct, when: always}
+    - {accept: ISO_Left_Tab, send: "Shift+Left", when: composing}
+    - {accept: "Shift+Tab", send: "Shift+Left", when: composing}
+    - {accept: Tab, send: "Shift+Right", when: composing}
+    - {accept: bracketleft, send: Page_Up, when: has_menu}
+    - {accept: bracketright, send: Page_Down, when: has_menu}
   import_preset: default
 menu:
   page_size: 10
@@ -52,12 +50,13 @@ recognizer:
 schema:
   author:
     - "Terry Tsang <archerindigo@gmail.com>"
+    - "Jeang Bo Yuan <jeangbyj@gmail.com>"
   description: |
     行列30萬用字元功能。此方案用作輔助行列30方案，不適宜獨立使用。
     
   name: "行列30萬用字元"
   schema_id: array30_query
-  version: 1.0
+  version: 1.0.ex.1
 speller:
   algebra:
     - "xform/^(.*)!$/$1/"
@@ -70,20 +69,20 @@ speller:
     - "derive/^.(.)(.)$/\\?$1$2/"
     - "derive/^.(.).$/\\?$1\\?/"
     - "derive/^..(.)$/\\?\\?$1/"
-    - "derive/^(.)(.)(.).$/$1$2$3\\?/"
-    - "derive/^(.)(.).(.)$/$1$2\\?$3/"
-    - "derive/^(.)(.)..$/$1$2\\?\\?/"
-    - "derive/^(.).(.)(.)$/$1\\?$2$3/"
-    - "derive/^(.).(.).$/$1\\?$2\\?/"
-    - "derive/^(.)..(.)$/$1\\?\\?$2/"
-    - "derive/^(.)...$/$1\\?\\?\\?/"
-    - "derive/^.(.)(.)(.)$/\\?$1$2$3/"
-    - "derive/^.(.)(.).$/\\?$1$2\\?/"
-    - "derive/^.(.).(.)$/\\?$1\\?$2/"
-    - "derive/^.(.)..$/\\?$1\\?\\?/"
-    - "derive/^..(.)(.)$/\\?\\?$1$2/"
-    - "derive/^..(.).$/\\?\\?$1\\?/"
-    - "derive/^...(.)$/\\?\\?\\?$1/"
+    - "derive/^(.)(.)(.).(i)?$/$1$2$3\\?$4/"
+    - "derive/^(.)(.).(.)(i)?$/$1$2\\?$3$4/"
+    - "derive/^(.)(.)..(i)?$/$1$2\\?\\?$3/"
+    - "derive/^(.).(.)(.)(i)?$/$1\\?$2$3$4/"
+    - "derive/^(.).(.).(i)?$/$1\\?$2\\?$3/"
+    - "derive/^(.)..(.)(i)?$/$1\\?\\?$2$3/"
+    - "derive/^(.)...(i)?$/$1\\?\\?\\?$2/"
+    - "derive/^.(.)(.)(.)(i)?$/\\?$1$2$3$4/"
+    - "derive/^.(.)(.).(i)?$/\\?$1$2\\?$3/"
+    - "derive/^.(.).(.)(i)?$/\\?$1\\?$2$3/"
+    - "derive/^.(.)..(i)?$/\\?$1\\?\\?$2/"
+    - "derive/^..(.)(.)(i)?$/\\?\\?$1$2$3/"
+    - "derive/^..(.).(i)?$/\\?\\?$1\\?$2/"
+    - "derive/^...(.)(i)?$/\\?\\?\\?$1$2/"
   alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?"
   delimiter: "'"
 switches:
@@ -143,7 +142,7 @@ translator:
   dictionary: array30_query
   enable_charset_filter: true
   enable_completion: true
-  enable_sentence: true
+  enable_sentence: false
   enable_user_dict: true
   preedit_format:
     - "xform|^A$|🙂|"
@@ -186,3 +185,4 @@ translator:
     - "xform|\\.|9↓|"
     - "xform|/|0↓|"
     - "xform|~| |"
+  prism: array30_query
