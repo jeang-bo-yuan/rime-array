@@ -1,21 +1,25 @@
 # array30.scheme.yaml
-# vim: set sw=2 sts=2 et:
 # encoding: utf-8
 
 schema:
   schema_id: array30
   name: "行列30"
-  version: "2.0"
+  version: "2.0.ex.1"
   author:
     - 發明人 廖明德先生
     - Jiehong Ma <ma.jiehong@gmail.com>
     - Terry Tsang <archerindigo@gmail.com>
+    - Jeang Bo Yuan <jeangbyj@gmail.com>
   description: |
     行列30輸入法
     http://www.array.com.tw/
   dependencies:
+    - default.yaml中的punctuator和key_binder
     - array30_wsymbols
-    - luna_quanpin
+    - array30_query
+    - terra_pinyin輸入方案         (optional)
+    - luna_quanpin輸入方案         (optional)
+    - emoji_suggestion opencc組建  (optional)
 
 switches:
   - name: ascii_mode
@@ -53,7 +57,7 @@ engine:
     - affix_segmentor@wsymbols
     - affix_segmentor@array30_query                 # "?"萬用字元用
     - affix_segmentor@luna_pinyin                   # 拼音反查行列用
-    - affix_segmentor@array30_to_bopomofo  #行列反查注音用
+    - affix_segmentor@array30_to_bopomofo           # 行列反查注音用
     - punct_segmentor
     - fallback_segmentor
   translators:
@@ -61,14 +65,14 @@ engine:
     - table_translator@wsymbols
     - table_translator@array30_query                # "?"萬用字元用
     - script_translator@luna_pinyin                 # 拼音反查行列用
-    - table_translator@array30_to_bopomofo  #行列反查注音用
+    - table_translator@array30_to_bopomofo          # 行列反查注音用
     - punct_translator
   filters:
     - simplifier
     - simplifier@emoji_suggestion
     - uniquifier
     - reverse_lookup_filter@reverse_lookup_array30      # 反查行列
-    - reverse_lookup_filter@reverse_lookup_bopomofo      # 反查注音
+    - reverse_lookup_filter@reverse_lookup_bopomofo     # 反查注音
 
 speller:
   alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ"
