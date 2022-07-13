@@ -50,9 +50,9 @@ endif
 
 install_pre: install
 ifneq "${varNdef}" "true"
-ifeq "${env}" "cmd"#因為
+ifeq "${env}" "cmd"
 	@echo 安裝array30_query二進制字典與稜鏡中......
-	@${cp} array30_query-precompiled/array30_query* "${rime_folder}\build"
+	@${cp} "array30_query-precompiled/array30_query*" "${rime_folder}\build"
 	@echo 是否要刪除array30_query輸入方案？（y/n）
 	@${rm} "${rime_folder}\array30_query.*.yaml"
 #因為del只認得以'\'分割目錄的路徑名，所以另外寫了一個條件判斷並以'\'分割目錄名
