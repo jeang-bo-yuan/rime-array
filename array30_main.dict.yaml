@@ -9,10 +9,10 @@
 # https://github.com/gontera/array30
 #
 # 本碼表收錄：
-# - 中日韓統一表意文字擴充區A至G
-# - 一、二級簡碼
 # - 特別碼
+# - 一、二級簡碼
 # - 行列輸入法原生標點符號碼
+# - 中日韓統一表意文字擴充區A至G
 #
 # 特別處理：
 # - 簡碼順序列出，不預佔特定數字鍵位置
@@ -433,8 +433,9 @@ use_preset_vocabulary: false
 喜	/;!
 舊	dp!
 # End of Array30 Special Code
+
 # Begin of 1-key and 2-key characters
-# Mark with '=' suffix
+# Mark with '@' suffix
 ，	,@
 火	,@
 米	,@
@@ -3767,6 +3768,7 @@ use_preset_vocabulary: false
 靂	zz@
 替	zz@
 # End of 1-key and 2-key characters
+
 # Begin of CJK Unified Ideographs + Extension A
 溫	cpu
 媼	wpu
