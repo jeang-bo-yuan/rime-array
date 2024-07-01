@@ -28,7 +28,7 @@ rime_array30_processor.func = function(key_event, env)
         env.engine:process_key(KeyEvent("Page_Down"))
         return Accepted
     -- 「空白」 轉 「!」
-    elseif string.match(input, "^[^!?][^!?]?$") and ch == " " then
+    elseif string.match(input, "^[a-z;,./][a-z;,./]?$") and ch == " " then
         env.engine:process_key(KeyEvent("!"))
         return Accepted
     -- 自動上屏特別碼
