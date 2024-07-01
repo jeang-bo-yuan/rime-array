@@ -14,12 +14,12 @@ schema:
     行列30輸入法
     http://www.array.com.tw/
   dependencies:
-    - default.yaml中的punctuator和key_binder
+#    - default.yaml中的punctuator和key_binder
     - array30_wsymbols
     - array30_query
-    - terra_pinyin輸入方案         (optional)
-    - luna_quanpin輸入方案         (optional)
-    - emoji_suggestion opencc組建  (optional)
+#    - terra_pinyin         # (optional)
+#    - luna_quanpin         # (optional)
+#    - emoji_suggestion opencc組建  (optional)
 
 switches:
   - name: ascii_mode
@@ -44,6 +44,7 @@ engine:
   processors:
     - ascii_composer
     - recognizer
+    - lua_processor@*rime_array30_processor
     - key_binder
     - speller
     - punctuator
@@ -73,13 +74,15 @@ engine:
     - uniquifier
     - reverse_lookup_filter@reverse_lookup_array30      # 反查行列
     - reverse_lookup_filter@reverse_lookup_bopomofo     # 反查注音
+    - lua_filter@*rime_array30_filter
 
 speller:
-  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  auto_select: true
+  auto_select_pattern: "^.*!$" # 輸入!後自動上屏
+  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ!" # ! -> 特別碼
   delimiter: "\\"
   algebra:
-    - xform/^(.*)!$/$1/                 # 簡碼
-    - xform/^(.*)@$/$1/                 # 特別碼（須置於簡碼之後）
+    - xform/^(.*)@..$/$1/   # 簡碼，去掉@後綴
 
 #主translator
 translator:
@@ -269,3 +272,5 @@ array30_format:
     - 'xform|\.|9↓|'
     - 'xform|/|0↓|'
     - 'xform|~| |'      # 消除逐鍵提示前綴'~'
+    - 'xform|@.|簡|'
+    - 'xform|!|特|'
