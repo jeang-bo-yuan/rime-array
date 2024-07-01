@@ -2,7 +2,7 @@
 這個檔案實作了rime-array30專用的processor
 功能：
     - 輸入碼為「w + 數字鍵」時，將「空白」轉「Page_Down」以將menu翻頁
-    - 有一or兩個輸入碼時，「空白」轉「!」，以輸入特別碼
+    - 在輸入行列碼時，按下「空白」會轉成「!」，以輸入「特別碼」或「重碼字」
     - 輸入碼中有「未上屏的特別碼」 且 「用戶已開始輸入下一個字的字碼」，則直接上屏特別碼
 ]]
 
@@ -28,7 +28,7 @@ rime_array30_processor.func = function(key_event, env)
         env.engine:process_key(KeyEvent("Page_Down"))
         return Accepted
     -- 「空白」 轉 「!」
-    elseif string.match(input, "^[a-z;,./][a-z;,./]?$") and ch == " " then
+    elseif string.match(input, "^[a-z;,./]+$") and ch == " " then
         env.engine:process_key(KeyEvent("!"))
         return Accepted
     -- 自動上屏特別碼

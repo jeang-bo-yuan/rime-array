@@ -42,9 +42,9 @@ menu:
 
 engine:
   processors:
+    - lua_processor@*rime_array30_processor
     - ascii_composer
     - recognizer
-    - lua_processor@*rime_array30_processor
     - key_binder
     - speller
     - punctuator
@@ -82,6 +82,7 @@ speller:
   alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ!" # ! -> 特別碼
   delimiter: "\\"
   algebra:
+    - xform/^(.*)&$/$1!/    # 重碼字視作特別碼
     - xform/^(.*)@..$/$1/   # 簡碼，去掉@後綴
 
 #主translator
@@ -272,5 +273,7 @@ array30_format:
     - 'xform|\.|9↓|'
     - 'xform|/|0↓|'
     - 'xform|~| |'      # 消除逐鍵提示前綴'~'
-    - 'xform|@.|簡|'
     - 'xform|!|特|'
+    - 'xform|&||'
+    - 'xform|@.|簡|'
+    
