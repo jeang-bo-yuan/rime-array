@@ -89,9 +89,12 @@ speller:
 translator:
   dictionary: array30
   enable_charset_filter: true
-  enable_user_dict: false
+  enable_user_dict: false   # 是否啟動用戶字典
   enable_completion: true   # 預設啟動逐鍵提示，照顧emoji輸入
-  enable_sentence: false  #預設取消自動造句
+  enable_sentence: false    # 自動造句功能
+  disable_user_dict_for_patterns:
+    - "^[a-z;,./]+([!&]|@..)?$"  # 特別碼、重碼、簡碼
+    - "^w[0-9]$"                 # w + 數字鍵
   preedit_format:
     __include: array30_format
   comment_format:
