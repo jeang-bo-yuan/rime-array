@@ -97,6 +97,8 @@ translator:
     - "^w[0-9]$"                 # w + 數字鍵
   preedit_format:
     __include: array30_format
+    __append:
+      - "xform|特|重|"   # 如果是特別碼的話，輸入「!」後就會自動上屏。只有重碼才有機會看到preedit_format
   comment_format:
     __include: array30_format
 
