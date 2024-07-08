@@ -38,7 +38,6 @@ menu:
 
 engine:
   processors:
-    - lua_processor@*rime_array30_processor        # 空白 轉 Page_Down、和上屏 特別碼／重碼 的功能
     - ascii_composer
     - recognizer
     - key_binder
@@ -67,7 +66,6 @@ engine:
     - simplifier@emoji_suggestion
     - uniquifier
     - reverse_lookup_filter@reverse_lookup_array30      # 反查
-    - lua_filter@*rime_array30_filter                   # 簡碼中 NULL數字 轉 □
 
 array30_format:
     - 'xform|^A$|🙂|'   # Smileys & Emotion
