@@ -10,6 +10,7 @@ schema:
     - 發明人 廖明德先生
     - Jiehong Ma <ma.jiehong@gmail.com>
     - Terry Tsang <archerindigo@gmail.com>
+    - Jeang Bo Yuan <jeangbyj@gmail.com>
   description: |
     行列30輸入法
     http://www.array.com.tw/
@@ -37,6 +38,7 @@ menu:
 
 engine:
   processors:
+    - lua_processor@*rime_array30_processor        # 空白 轉 Page_Down、和上屏 特別碼／重碼 的功能
     - ascii_composer
     - recognizer
     - key_binder
@@ -65,6 +67,7 @@ engine:
     - simplifier@emoji_suggestion
     - uniquifier
     - reverse_lookup_filter@reverse_lookup_array30      # 反查
+    - lua_filter@*rime_array30_filter                   # 簡碼中 NULL數字 轉 □
 
 array30_format:
     - 'xform|^A$|🙂|'   # Smileys & Emotion
@@ -107,13 +110,18 @@ array30_format:
     - 'xform|\.|9↓|'
     - 'xform|/|0↓|'
     - 'xform|~| |'      # 消除逐鍵提示前綴'~'
+    - 'xform|!|特|'
+    - 'xform|&||'
+    - 'xform|@.|簡|'
 
 speller:
-  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  auto_select: true
+  auto_select_pattern: "^.*!$" # 輸入!後自動上屏
+  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ!" # ! -> 特別碼
   delimiter: "\\"
   algebra:
-    - xform/^(.*)!$/$1/                 # 簡碼
-    - xform/^(.*)@$/$1/                 # 特別碼（須置於簡碼之後）
+    - xform/^(.*)&$/$1!/    # 重碼字視作特別碼
+    - xform/^(.*)@..$/$1/   # 簡碼，去掉@後綴
 
 translator:
   dictionary: array30
@@ -121,9 +129,12 @@ translator:
   enable_user_dict: true    # 用戶詞典。主要用於調頻
   enable_completion: true   # 預設啟動逐鍵提示，照顧emoji輸入
   disable_user_dict_for_patterns:
-    - "^[^ASDFGHJKL].?$"  # 單碼及雙碼不調頻，以保持簡碼位置。Emoji例外
+    - "^[a-z;,./]+([!&]|@..)?$"  # 特別碼、重碼、簡碼
+    - "^w[0-9]$"                 # w + 數字鍵
   preedit_format:
     __include: array30_format
+    __append:
+      - "xform|特|重|"   # 如果是特別碼的話，輸入「!」後就會自動上屏。只有重碼才有機會看到preedit_format
   comment_format:
     __include: array30_format
 
