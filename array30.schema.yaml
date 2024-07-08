@@ -114,12 +114,15 @@ array30_format:
 
 speller:
   auto_select: true
-  auto_select_pattern: "^.*!$" # 輸入!後自動上屏
-  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ!" # ! -> 特別碼
+  auto_select_pattern: "^[a-z;,./]+[ ]$" # 自動上屏特別碼
+  alphabet: "abcdefghjiklmnopqrstuvwxyz;,./'ABCDEFGHIJKLMNOPQRSTUVWXYZ " # 「空格」 -> 特別碼、重碼
+  initials: "abcdefghjiklmnopqrstuvwxyz;,./ASDFGHJKL"
+  finals: "'ZXCVBNMQWERTYUIOP "
+  use_space: true
   delimiter: "\\"
   algebra:
-    - xform/^(.*)&$/$1!/    # 重碼字視作特別碼
-    - xform/^(.*)@..$/$1/   # 簡碼，去掉@後綴
+    - xform/^(.*)[&!]$/$1 /    # 重碼和特別碼都以「空格」結尾
+    - xform/^(.*)@..$/$1/      # 簡碼，去掉@後綴
 
 translator:
   dictionary: array30
@@ -127,12 +130,12 @@ translator:
   enable_user_dict: true    # 用戶詞典。主要用於調頻
   enable_completion: true   # 預設啟動逐鍵提示，照顧emoji輸入
   disable_user_dict_for_patterns:
-    - "^[a-z;,./]+([!&]|@..)?$"  # 特別碼、重碼、簡碼
-    - "^w[0-9]$"                 # w + 數字鍵
+    - "^[a-z;,./]+([!& ]|@..)?$"  # 特別碼、重碼、簡碼
+    - "^w[0-9]$"                  # w + 數字鍵
   preedit_format:
     __include: array30_format
     __append:
-      - "xform|特|重|"   # 如果是特別碼的話，輸入「!」後就會自動上屏。只有重碼才有機會看到preedit_format
+      - "xform| |重|"
   comment_format:
     __include: array30_format
 
