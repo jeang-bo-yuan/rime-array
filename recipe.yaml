@@ -1,0 +1,7 @@
+# 行列輸入法配方
+recipe:
+  Rx: "array"
+
+install_files:
+  - array30*.yaml
+  - lua/*.lua

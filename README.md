@@ -1,6 +1,6 @@
 # 行列30
 
-基於`rime-array30`的修改版本。
+基於`rime-array`的修改版本。
 
 ## What's the difference?
 
@@ -25,6 +25,14 @@
 1. 修正萬用字元對於四碼罕字（含'8^'的話共五碼）不生效的問題 *（已merge）*
 
 ---
+
+## 安裝
+
+配方： ℞ array
+
+[東風破](https://github.com/rime/plum) 安裝口令： `bash rime-install jeang-bo-yuan/rime-array-extended`
+
+手動安裝：將`array30*.yaml`和`lua/*.lua`複製到用戶資料夾中並重新部署。
 
 ## 功能說明
 
@@ -76,7 +84,7 @@
 
 一、二级簡碼已編排數字鍵位，空碼位以「□」代替。欲上屏簡碼可以透過「數字鍵」來選擇。
 
- ![alt text](簡碼輸入示例.png)
+ ![alt text](img/簡碼輸入示例.png)
 
  ### 特別碼
 
@@ -94,7 +102,7 @@
 
 > 按下`z` + `Space`後馬上開始輸入下個字的字碼會自動上屏「不」
 
- ![alt text](重碼字示例.png)
+ ![alt text](img/重碼字示例.png)
 
 ## 授權條款
 
