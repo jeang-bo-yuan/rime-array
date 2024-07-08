@@ -32,6 +32,9 @@ switches:
     states: [ 。，, ．， ]
   - name: emoji_suggestion
     states: [ "🈚️", "🈶️" ]
+  - name: null2square
+    reset: 1
+    states: [ "NULL", "□"]
 
 menu:
   page_size: 10
@@ -66,6 +69,7 @@ engine:
     - simplifier@emoji_suggestion
     - uniquifier
     - reverse_lookup_filter@reverse_lookup_array30      # 反查
+    - simplifier@null2square                            # 將簡碼中的空碼位以「□」顯示
 
 array30_format:
     - 'xform|^A$|🙂|'   # Smileys & Emotion
@@ -171,6 +175,12 @@ emoji_suggestion:
   opencc_config: emoji.json
   option_name: emoji_suggestion
   tips: all
+
+null2square:
+  opencc_config: null2square.json
+  option_name: null2square
+  tips: none
+  inherit_comment: true
 
 # 反查拼音用translator
 luna_pinyin:
