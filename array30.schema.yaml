@@ -113,8 +113,7 @@ array30_format:
     - 'xform|/|0↓|'
     - 'xform|~| |'      # 消除逐鍵提示前綴'~'
     - 'xform|!|特|'
-    - 'xform|&||'
-    - 'xform|@.|簡|'
+    - 'xform|@|簡|'
 
 speller:
   auto_select: true
@@ -125,8 +124,8 @@ speller:
   use_space: true
   delimiter: "\\"
   algebra:
-    - xform/^(.*)[&!]$/$1 /    # 重碼和特別碼都以「空格」結尾
-    - xform/^(.*)@..$/$1/      # 簡碼，去掉@後綴
+    - xform|^([a-z;,./]+)[!]?$|$1 |    # 重碼和特別碼都以「空格」結尾
+    - xform|^([a-z;,./]+)[@]$|$1|      # 簡碼，去掉@後綴
 
 translator:
   dictionary: array30
@@ -134,8 +133,8 @@ translator:
   enable_user_dict: true    # 用戶詞典。主要用於調頻
   enable_completion: true   # 預設啟動逐鍵提示，照顧emoji輸入
   disable_user_dict_for_patterns:
-    - "^[a-z;,./]+([!& ]|@..)?$"  # 特別碼、重碼、簡碼
-    - "^w[0-9]$"                  # w + 數字鍵
+    - "^[a-z;,./]+[! @]?$"  # 特別碼、重碼、簡碼
+    - "^w[0-9]$"            # w + 數字鍵
   preedit_format:
     __include: array30_format
     __append:
