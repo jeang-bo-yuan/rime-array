@@ -82,8 +82,8 @@ speller:
   alphabet: "abcdefghjiklmnopqrstuvwxyz;,./?'ABCDEFGHIJKLMNOPQRSTUVWXYZ!" # ! -> 特別碼
   delimiter: "\\"
   algebra:
-    - xform/^(.*)&$/$1!/    # 重碼字視作特別碼
-    - xform/^(.*)@..$/$1/   # 簡碼，去掉@後綴
+    - xform|^([a-z;,./]+)$|$1!|      # 重碼視作特別碼
+    - xform|^([a-z;,./]+)[@]$|$1|    # 簡碼，去掉@後綴
 
 #主translator
 translator:
@@ -93,7 +93,7 @@ translator:
   enable_completion: true   # 預設啟動逐鍵提示，照顧emoji輸入
   enable_sentence: false    # 自動造句功能
   disable_user_dict_for_patterns:
-    - "^[a-z;,./]+([!&]|@..)?$"  # 特別碼、重碼、簡碼
+    - "^[a-z;,./]+[!@]?$"  # 特別碼、重碼、簡碼
     - "^w[0-9]$"                 # w + 數字鍵
   preedit_format:
     __include: array30_format
@@ -279,6 +279,5 @@ array30_format:
     - 'xform|/|0↓|'
     - 'xform|~| |'      # 消除逐鍵提示前綴'~'
     - 'xform|!|特|'
-    - 'xform|&||'
-    - 'xform|@.|簡|'
+    - 'xform|@|簡|'
     

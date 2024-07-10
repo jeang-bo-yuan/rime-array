@@ -10,6 +10,7 @@ sort: original
 use_preset_vocabulary: false  # 使用八股文詞庫時需設為true，否則建議設成false
 import_tables:
   - array30_main
+  #- array30_phrases    # 取消註解此行以啟用行列內建的詞彙字典
   - array30_emoji
 
 # 解除以下註解以使用八股文詞庫

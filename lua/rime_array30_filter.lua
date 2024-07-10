@@ -5,16 +5,11 @@
 ]]
 
 local function filter(input, env)
-    local input_str = env.engine.context.input
-    local preserve_null = string.match(input_str, "^[a-z;,./][a-z;,./]?$") -- 只有輸入碼是簡碼時才要保留NULL
-
     for cand in input:iter() do
         if string.match(cand.text, "NULL") then
-            if preserve_null then
-                local c = Candidate(cand.type, cand.start, cand._end, "□", "")
-                c.preedit = cand.preedit
-                yield(c)
-            end
+            local c = Candidate(cand.type, cand.start, cand._end, "□", cand.comment)
+            c.preedit = cand.preedit
+            yield(c)
         else
             yield(cand)
         end
