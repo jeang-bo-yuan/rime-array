@@ -16,6 +16,7 @@ schema:
     http://www.array.com.tw/
   dependencies:
     - array30_wsymbols
+    - array30_query
     - luna_quanpin
 
 switches:
