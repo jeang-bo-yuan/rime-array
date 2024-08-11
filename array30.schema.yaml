@@ -35,7 +35,6 @@ switches:
     states: [ "🈚️", "🈶️" ]
   - name: null2square
     reset: 1
-    states: [ "NULL", "□"]
 
 menu:
   page_size: 10
