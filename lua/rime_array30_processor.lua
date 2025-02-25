@@ -31,7 +31,7 @@ rime_array30_processor.func = function(key_event, env)
     elseif string.match(input, "^[a-z;,./]+$") and ch == " " then
         env.engine:process_key(KeyEvent("!"))
         return Accepted
-    -- 自動上屏特別碼
+    -- 在未上屏的時候開始輸入下個字的字碼，則自動上屏
     elseif string.match(input, "^.+!$") and string.find(alphabet, ch) then
         env.engine.context:confirm_current_selection()
         env.engine.context:clear()
